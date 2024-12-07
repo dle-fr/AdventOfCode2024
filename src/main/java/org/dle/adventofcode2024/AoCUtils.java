@@ -22,4 +22,8 @@ class AoCUtils {
                 .map(Integer::parseInt)
                 .toList();
     }
+
+    static List<Long> toLongs(String[] split) {
+        return Arrays.stream(split).map(Long::parseLong).toList();
+    }
 }

@@ -3,6 +3,8 @@ package org.dle.adventofcode2024;
 import java.util.*;
 import java.util.function.BiPredicate;
 
+import static org.dle.adventofcode2024.AoCUtils.toLongs;
+
 class Day5 {
 
     long part1(List<String> input) {
@@ -25,10 +27,6 @@ class Day5 {
                 .map(u -> fixOrder(u, rules))
                 .map(u -> u.get(Math.floorDiv(u.size(), 2)))
                 .reduce(0L, Long::sum);
-    }
-
-    private List<Long> toLongs(String[] split) {
-        return Arrays.stream(split).map(Long::parseLong).toList();
     }
 
     // Should return a correct ordered update list, according to rules
