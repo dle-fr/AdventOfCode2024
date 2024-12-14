@@ -7,9 +7,9 @@ import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Day6Test {
+public class Day06Test {
 
-    private static final Supplier<Day6> clazz = Day6::new;
+    private static final Supplier<Day06> clazz = Day06::new;
     private static final List<String> TEST_MAP = List.of("""
            ....#.....
            .........#

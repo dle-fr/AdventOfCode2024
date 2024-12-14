@@ -6,18 +6,18 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Day2Test {
+class Day02Test {
 
     @Test
     void part1_test() {
-        int res = new Day2().part1();
+        int res = new Day02().part1();
         System.out.println(res);
         assertEquals(287, res);
     }
 
     @Test
     void part2_test() {
-        int res = new Day2().part2();
+        int res = new Day02().part2();
         System.out.println(res);
         assertEquals(354, res);
     }
@@ -27,6 +27,6 @@ class Day2Test {
             "49 49 52 49 49,false"
     })
     void part2_test_weird_case(String value, String safe) {
-        assertEquals("true".equals(safe), new Day2().isSafeWithDampener(AoCUtils.stringWithSpacesToInts(value)));
+        assertEquals("true".equals(safe), new Day02().isSafeWithDampener(AoCUtils.stringWithSpacesToInts(value)));
     }
 }

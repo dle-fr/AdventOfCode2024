@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-class Day6 {
+class Day06 {
 
     long part1(List<String> input) {
         List<String> strings = input != null ? input : AoCUtils.readFile(this);

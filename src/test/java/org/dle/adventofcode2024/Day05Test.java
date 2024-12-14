@@ -6,17 +6,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Day5Test {
+public class Day05Test {
 
     @Test
     void part1_test() {
-        long res = new Day5().part1(null);
+        long res = new Day05().part1(null);
         assertEquals(6951, res);
     }
 
     @Test
     void part2_test() {
-        long res = new Day5().part2(null);
+        long res = new Day05().part2(null);
         assertEquals(4121, res);
     }
 
@@ -52,13 +52,13 @@ public class Day5Test {
 
     @Test
     void part1_test_example() {
-        long res = new Day5().part1(TEST_LIST);
+        long res = new Day05().part1(TEST_LIST);
         assertEquals(143, res);
     }
 
     @Test
     void part2_test_example() {
-        long res = new Day5().part2(TEST_LIST);
+        long res = new Day05().part2(TEST_LIST);
         assertEquals(123, res);
     }
 }

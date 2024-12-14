@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class Day1 {
+class Day01 {
 
     int part1() {
         Pair lists = loadLists();

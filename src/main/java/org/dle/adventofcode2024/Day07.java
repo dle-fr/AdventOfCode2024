@@ -4,7 +4,7 @@ import java.util.List;
 
 import static org.dle.adventofcode2024.AoCUtils.toLongs;
 
-class Day7 {
+class Day07 {
 
     long part1(List<String> input) {
         List<String> strings = input != null ? input : AoCUtils.readFile(this);

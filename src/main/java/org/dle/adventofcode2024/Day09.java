@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-class Day9 {
+class Day09 {
 
     // Cache of dots clusters min index by cluster size, to avoid iterating
     // on the whole map again each time and only start at last known min index

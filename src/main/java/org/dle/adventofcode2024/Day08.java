@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-class Day8 {
+class Day08 {
 
     long part1(List<String> input) {
         List<String> strings = input != null ? input : AoCUtils.readFile(this);

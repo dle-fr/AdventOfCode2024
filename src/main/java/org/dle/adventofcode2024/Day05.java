@@ -5,7 +5,7 @@ import java.util.function.BiPredicate;
 
 import static org.dle.adventofcode2024.AoCUtils.toLongs;
 
-class Day5 {
+class Day05 {
 
     long part1(List<String> input) {
         return filterFixAndReduce((update, rules) -> getBadIndex(update, rules) == -1, input); // searching for good updates only

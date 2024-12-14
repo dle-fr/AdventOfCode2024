@@ -3,7 +3,7 @@ package org.dle.adventofcode2024;
 import java.util.ArrayList;
 import java.util.List;
 
-class Day2 {
+class Day02 {
 
     int part1() {
         return resolve(false);
