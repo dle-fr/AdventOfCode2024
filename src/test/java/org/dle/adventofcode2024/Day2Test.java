@@ -27,6 +27,6 @@ class Day2Test {
             "49 49 52 49 49,false"
     })
     void part2_test_weird_case(String value, String safe) {
-        assertEquals("true".equals(safe), new Day2().isSafeWithDampener(AoCUtils.integerListFromString(value)));
+        assertEquals("true".equals(safe), new Day2().isSafeWithDampener(AoCUtils.stringWithSpacesToInts(value)));
     }
 }

@@ -34,7 +34,7 @@ class Day1 {
         List<String> strings = AoCUtils.readFile(this);
 
         for (String s : strings) {
-            List<Integer> split = AoCUtils.integerListFromString(s);
+            List<Integer> split = AoCUtils.stringWithSpacesToInts(s);
             pair.list1.add(split.get(0));
             pair.list2.add(split.get(1));
         }

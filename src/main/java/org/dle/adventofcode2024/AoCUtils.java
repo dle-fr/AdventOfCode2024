@@ -15,7 +15,8 @@ class AoCUtils {
         }
     }
 
-    static List<Integer> integerListFromString(String string) {
+    // Chars separated by a space
+    static List<Integer> stringWithSpacesToInts(String string) {
         return Arrays.stream(string.split(" "))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
@@ -23,7 +24,12 @@ class AoCUtils {
                 .toList();
     }
 
-    static List<Long> toLongs(String[] split) {
-        return Arrays.stream(split).map(Long::parseLong).toList();
+    // String of ints (no separation, single digit)
+    static List<Integer> stringToInts(String string) {
+        return Arrays.stream(string.split("")).map(Integer::parseInt).toList();
+    }
+
+    static List<Long> toLongs(String[] array) {
+        return Arrays.stream(array).map(Long::parseLong).toList();
     }
 }

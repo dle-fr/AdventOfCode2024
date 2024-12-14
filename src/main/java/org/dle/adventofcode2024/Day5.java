@@ -64,4 +64,4 @@ class Day5 {
         }
         return -1;
     }
-} // Nice
+}

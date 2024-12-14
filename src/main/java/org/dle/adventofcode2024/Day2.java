@@ -17,7 +17,7 @@ class Day2 {
         List<String> strings = AoCUtils.readFile(this);
         int safe = 0;
         for (String s : strings) {
-            List<Integer> split = AoCUtils.integerListFromString(s);
+            List<Integer> split = AoCUtils.stringWithSpacesToInts(s);
             boolean isSafe = withDampener ? isSafeWithDampener(split) : isSafe(split);
             if (isSafe) {
                 safe++;
