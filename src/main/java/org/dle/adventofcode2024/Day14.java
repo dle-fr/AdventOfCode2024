@@ -1,21 +1,16 @@
 package org.dle.adventofcode2024;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class Day14 {
+class Day14 extends AoCVisual.Drawable<int[][]> {
 
     private static final Pattern PATTERN = Pattern.compile("p=(-*\\d+),(-*\\d+) v=(-*\\d+),(-*\\d+)");
     private static final int SOLUTION_PART2 = 6587; // FIXME We may be able to calculate it with quadrants of 4 * 4
-    private static final int MULT = 10, DIV = 500, SPEED = 60; // For visualisation
-
-    public static void main(String[] args) {
-        new Day14().part2(null, 101, 103);
-    }
+    private static final int MULT_CALC = 500, MULT_GRID = 10; // For visualisation
 
     long part1(List<String> input, int sizeX, int sizeY) {
         List<String> strings = input != null ? input : AoCUtils.readFile(new Day14());
@@ -29,14 +24,7 @@ class Day14 {
     long part2(List<String> input, int sizeX, int sizeY) {
         List<String> strings = input != null ? input : AoCUtils.readFile(new Day14());
         List<Robot> robots = strings.stream().map(this::parseRobot).toList();
-
-        Visualisation visualisation = new Visualisation();
-        JFrame frame = new JFrame("Christmas Tree visualisation");
-        frame.setSize(sizeX * 10, sizeY * 10);
-        frame.setBackground(Color.black);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(visualisation);
+        AoCVisual<int[][]> aoCVisual = new AoCVisual<>("Christmas Tree visualisation", this);
 
         int iteration = SOLUTION_PART2 - 1;
         long biggestSum = 0;
@@ -47,7 +35,7 @@ class Day14 {
                 biggestSum = sum;
                 System.out.println("Iteration " + iteration + " = " + sum);
             }
-            getSubPositions(robots, sizeX, sizeY, iteration, visualisation);
+            getSubPositions(robots, sizeX, sizeY, iteration, aoCVisual);
 
             iteration++;
         } while (iteration < (SOLUTION_PART2 + 1));
@@ -65,28 +53,26 @@ class Day14 {
     }
 
     // More complicated calculation of positions for a smooth visualisation
-    private void getSubPositions(List<Robot> robots, int sizeX, int sizeY, int iteration, Visualisation visualisation) {
-        for (double d = 0; d < DIV; d++) {
-            final int[][] res = new int[sizeY * MULT][sizeX * MULT];
+    private void getSubPositions(List<Robot> robots, int sizeX, int sizeY, int iteration, AoCVisual<int[][]> aoCVisual) {
+        final int newSizeX = sizeX * MULT_GRID, newSizeY = sizeY * MULT_GRID;
+
+        for (int i = 0; i < MULT_CALC; i++) {
+            final int[][] res = new int[newSizeY][newSizeX];
             Arrays.stream(res).forEach(a -> Arrays.fill(a, 0));
-            double fd = d;
-            robots.forEach(r -> {
-                int finalX = (int) ((r.x * MULT) + (((double) iteration + fd / DIV) * (r.vx * MULT))) % (sizeX * MULT);
+            double iterationD = iteration + i * 1.0 / MULT_CALC;
+            robots.parallelStream().forEach(r -> {
+                double finalX = (r.x * MULT_GRID + iterationD * r.vx * MULT_GRID) % newSizeX;
                 if (finalX < 0) {
-                    finalX = sizeX * MULT + finalX;
+                    finalX = newSizeX + finalX;
                 }
-                int finalY = (int) ((r.y * MULT) + (((double) iteration + fd / DIV) * (r.vy * MULT))) % (sizeY * MULT);
+                double finalY = (r.y * MULT_GRID + iterationD * r.vy * MULT_GRID) % newSizeY;
                 if (finalY < 0) {
-                    finalY = sizeY * MULT + finalY;
+                    finalY = newSizeY + finalY;
                 }
-                res[finalY][finalX]++;
+                res[(int) finalY][(int) finalX]++;
             });
-            visualisation.positions = res;
-            visualisation.iteration = iteration;
-            visualisation.repaint();
-            try {
-                Thread.sleep(1000 / SPEED);
-            } catch (InterruptedException e) {}
+            aoCVisual.drawAndWait(res, "iteration: " + iteration,
+                    i == 0 && iteration == SOLUTION_PART2 ? 1000 : 8000 / MULT_CALC);
         }
     }
 
@@ -100,16 +86,16 @@ class Day14 {
         return res;
     }
 
-    private int[][] getPositions(List<Robot> robots, int sizeX, int sizeY, int iterations) {
+    private int[][] getPositions(List<Robot> robots, int sizeX, int sizeY, int iteration) {
         final int[][] res = new int[sizeY][sizeX];
         Arrays.stream(res).forEach(a -> Arrays.fill(a, 0));
 
         robots.forEach(r -> {
-            int finalX = (r.x + iterations * r.vx) % sizeX;
+            int finalX = (r.x + iteration * r.vx) % sizeX;
             if (finalX < 0) {
                 finalX = sizeX + finalX;
             }
-            int finalY = (r.y + iterations * r.vy) % sizeY;
+            int finalY = (r.y + iteration * r.vy) % sizeY;
             if (finalY < 0) {
                 finalY = sizeY + finalY;
             }
@@ -128,30 +114,19 @@ class Day14 {
 
     private record Robot(int x, int y, int vx, int vy) {}
 
-    public static class Visualisation extends JPanel {
-        private int[][] positions;
-        private int iteration;
+    @Override
+    public void draw(Graphics g, int width, int height) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, width, height);
+        g.setColor(new Color(255, 255, 255, 50));
 
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            //draw robots
-            if (positions != null) {
-                g.setColor(Color.BLACK);
-                g.fillRect(0, 0, getWidth(), getHeight());
-                g.setColor(new Color(255, 255, 255, 50));
-                for (int y = 0; y < positions.length; y++) {
-                    for (int x = 0; x < positions[0].length; x++) {
-                        if (positions[y][x] > 0) {
-                            g.fillOval(x * getWidth() / positions[0].length, y * getHeight() / positions.length,
-                                    getWidth() / 100, getWidth() / 100);
-                        }
-                    }
+        for (int y = 0; y < data.length; y++) {
+            for (int x = 0; x < data[0].length; x++) {
+                if (data[y][x] > 0) {
+                    g.fillOval(x * width / data[0].length, y * height / data.length,
+                            width * MULT_GRID / data[0].length, height * MULT_GRID / data.length);
                 }
             }
-            // Draw iteration indicator
-            g.setColor(Color.RED);
-            g.setFont(new Font("Arial", Font.BOLD, getWidth() / 50));
-            g.drawString("iteration: " + iteration, getWidth() / 50, getHeight() / 25);
         }
     }
 }
